@@ -15,7 +15,7 @@ DMX_CHANNELS = [510, 511, 512]
 status = False
 stamp = datetime.datetime.now()
 
-on_off = False
+on_off = 255
 sec_on = 0
 sec_off = 0
 
@@ -27,18 +27,22 @@ def thread_function():
     global stamp
 
     while True:
-        if on_off:
-            new_status = status
-            if sec_on == 0 and sec_off == 0:
-                new_status = True
-            elif status:
-                if datetime.datetime.now() > stamp + datetime.timedelta(seconds=sec_on):
-                    new_status = False
-            else:
-                if datetime.datetime.now() > stamp + datetime.timedelta(seconds=sec_off):
-                    new_status = True
-        else:
+        if on_off >= 58:
             new_status = False
+        elif on_off >= 38:
+            if datetime.datetime.now() > stamp + datetime.timedelta(seconds=1):
+                if new_status == False:
+                    new_status = True
+                else: 
+                    new_status = False
+        elif on_off >= 22:
+            if datetime.datetime.now() > stamp + datetime.timedelta(seconds=3):
+                if new_status == False:
+                    new_status = True
+                else: 
+                    new_status = False
+        else:
+            new_status = True
 
         if status != new_status:
             status = new_status
@@ -66,7 +70,7 @@ class MyDmxCallback(DmxClientCallback):
 
         print(f"valid monitored data: {monitored_data}")
 
-        on_off = monitored_data[510] > 127
+        on_off = monitored_data[510]
         sec_on = monitored_data[511]
         sec_off = monitored_data[512]
 
