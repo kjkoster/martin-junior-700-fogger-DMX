@@ -1,6 +1,7 @@
-import threading
+import sys
 import time
 import datetime
+import threading
 import RPi.GPIO as GPIO
 from roh.dmx.client.dmx_client import DmxClient
 from roh.dmx.client.dmx_client_callback import DmxClientCallback
@@ -81,10 +82,14 @@ if __name__ == "__main__":
     x = threading.Thread(target=thread_function)
     x.start()
 
-    print(f"{datetime.datetime.now()} starting DMX client on {DMX_DEVICE}, listening on channels {DMX_CHANNELS}")
-    c: DmxClient = DmxClient(DMX_DEVICE, DMX_CHANNELS, MyDmxCallback())
-    c.run()
+    try:
+        print(f"{datetime.datetime.now()} starting DMX client on {DMX_DEVICE}, listening on channels {DMX_CHANNELS}")
+        c: DmxClient = DmxClient(DMX_DEVICE, DMX_CHANNELS, MyDmxCallback())
+        c.run()
 
-    x.join()
-    print("Main    : all done")
-
+        x.join()
+        print("Main    : all done")
+    except KeyboardInterrupt:
+        GPIO.cleanup()
+        time.sleep(0.1)
+        sys.exit()
