@@ -6,8 +6,6 @@ from roh.dmx.client.dmx_client import DmxClient
 from roh.dmx.client.dmx_client_callback import DmxClientCallback
 from typing import Dict
 
-import random # XXX
-
 RELAY_GPIO_PIN = 25
 
 DMX_DEVICE = "/dev/ttyAMA0"
@@ -17,8 +15,8 @@ status = False
 stamp = datetime.datetime.now()
 
 on_off = False
-sec_on = 3
-sec_off = 3
+sec_on = 0
+sec_off = 0
 
 def thread_function():
     global status
@@ -28,9 +26,6 @@ def thread_function():
     global stamp
 
     while True:
-        # XXX
-        on_off = random.randint(0, 255) > 127
-
         if on_off:
             new_status = status
             if sec_on == 0 and sec_off == 0:
@@ -51,8 +46,7 @@ def thread_function():
         GPIO.output(RELAY_GPIO_PIN, status)
 
         print(f"{datetime.datetime.now()} status {status} on_off {on_off} sec_on {sec_on} sec_off {sec_off}")
-        time.sleep(1)
-        # time.sleep(0.1)
+        time.sleep(0.1)
 
 class MyDmxCallback(DmxClientCallback):
     """
