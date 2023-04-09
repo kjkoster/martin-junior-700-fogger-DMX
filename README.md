@@ -15,6 +15,11 @@ values are also not very precise, especially on consoles with short faders. You
 might plan some time to just experiment with the values that your console sends
 for certain fader positions.
 
+The photo below shows the finished control box, mounted to the side of the
+fogger. The black XLR connector is the DMX terminator.
+
+![the final result](images/dmx-final.jpg)
+
 We use Wireguard and GIT for remote access and versioning of the code on the
 control box. Documentation for that can be found elsewhere, so we don't go into
 that here.
@@ -37,13 +42,17 @@ grew in steps and that means some of the wiring could have been done nicer. For
 example, the relay board is wired to the Raspberry Pi by soldering onto the I/O
 header of the RS-485 shield. That is certainly not ideal.
 
+The image below shows the wiring and how we hot-glued the Raspberry Pi and relay
+into the control box. There are a few ventilation holes in the bottom and along
+the top of the control box.
+
 ![fully wired DMX control box](images/dmx-wiring.jpg)
 
 The DMX wiring is as follows (K2 is the 5 pin connector on the RS-485 HAT):
 
 * data +: XLR pin 3 to K2 pin 1
 * data +: XLR pin 2 to K2 pin 2
-$ ground: XLR pin 1 to K2 pin 5
+* ground: XLR pin 1 to K2 pin 5
 
 The relay wiring for GPIO BCM pin 25 is on physical pin 22, giving the following
 connections:
@@ -57,8 +66,11 @@ Finally, the relay is wired to the Martin's DIN connector:
 * relay common: Martin's DIN connector 3
 * relay normally open: Martin's DIN connector 5
 
-We ended up removing the DIN connector entirely, adding a manual control switch
-too, but you may want to leave the DIN connector intact.
+You cannot see that in photo, but there is a hole in the center of the control
+box and the side of the Martin fogger. The wire from the relay to the DIN
+connector is routed through there. We ended up removing the DIN connector
+entirely, adding a manual control switch too, but you may want to leave the DIN
+connector intact.
 
 ## Enabling DMX over RS-485
 
@@ -75,6 +87,9 @@ This assumes that you will use an external DMX loop terminator.
 Testing is probably best done using a DMX console. If you have a second
 Raspberry Pi and RS-485 HAT, you can also use that to generate the test signals.
 Keep in mind that actual console signals are more messy that programmatic ones.
+
+The photo shows how we tested: the second Raspberry Pi acted as DMX console,
+with crocodile clamps to connect.
 
 ![Testing DMX from a second raspberry pi](images/dmx-testing.jpg)
 
