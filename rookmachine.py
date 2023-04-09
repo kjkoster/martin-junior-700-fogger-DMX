@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sys
 import time
 import datetime
@@ -52,7 +53,7 @@ def thread_function():
 
         GPIO.output(RELAY_GPIO_PIN, status)
 
-        print(f"{datetime.datetime.now()} status {status} on_off {on_off} sec_on {sec_on} sec_off {sec_off}")
+        # print(f"{datetime.datetime.now()} status {status} on_off {on_off} sec_on {sec_on} sec_off {sec_off}")
         time.sleep(0.01)
 
 class MyDmxCallback(DmxClientCallback):
@@ -70,13 +71,13 @@ class MyDmxCallback(DmxClientCallback):
         global sec_on
         global sec_off
 
-        print(f"valid monitored data: {monitored_data}")
+        # print(f"valid monitored data: {monitored_data}")
 
         on_off = monitored_data[510]
         sec_on = monitored_data[511]
         sec_off = monitored_data[512]
 
-        print(f"    on_off: {on_off}, sec_on: {sec_on}, sec_off: {sec_off}")
+        # print(f"    on_off: {on_off}, sec_on: {sec_on}, sec_off: {sec_off}")
 
     def full_data_received(self, data: bytes) -> None:
         pass

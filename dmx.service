@@ -1,0 +1,5 @@
+[Unit]
+SourcePath=/etc/init.d/dmx
+[Service]
+ExecStart=/etc/init.d/dmx start
+ExecStop=/etc/init.d/dmx stop
