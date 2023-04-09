@@ -53,7 +53,7 @@ def thread_function():
         GPIO.output(RELAY_GPIO_PIN, status)
 
         print(f"{datetime.datetime.now()} status {status} on_off {on_off} sec_on {sec_on} sec_off {sec_off}")
-        time.sleep(0.1)
+        time.sleep(0.01)
 
 class MyDmxCallback(DmxClientCallback):
     """
