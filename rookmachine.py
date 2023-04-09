@@ -41,8 +41,10 @@ def thread_function():
                     new_status = True
                 else: 
                     new_status = False
-        else:
+        elif on_off >= 2:
             new_status = True
+        else:
+            new_status = False
 
         if status != new_status:
             status = new_status
