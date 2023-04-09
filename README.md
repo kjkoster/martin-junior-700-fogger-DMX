@@ -6,7 +6,7 @@ control. When the control box for this fogger got misplaced, we took the
 opportunity to hook it up to the DMX loop for remote control.
 
 The new control box contains a Raspberry Pi with an RS-485 HAT and a relay. The
-relay simply bridges pins X and X on what used to be the control box's DIN
+relay simply bridges pins 3 and 5 on what used to be the control box's DIN
 connector. We chose to mount the box on the fogger's side, but you can also give
 it a DIN connector and use it as external control unit.
 
@@ -37,8 +37,28 @@ grew in steps and that means some of the wiring could have been done nicer. For
 example, the relay board is wired to the Raspberry Pi by soldering onto the I/O
 header of the RS-485 shield. That is certainly not ideal.
 
-The microphone cable we used to wire up the XLR chassis connectors is rather
-stiff. Please take care that this does not put stress on the boards.
+![fully wired DMX control box](images/dmx-wiring.jpg)
+
+The DMX wiring is as follows (K2 is the 5 pin connector on the RS-485 HAT):
+
+* data +: XLR pin 3 to K2 pin 1
+* data +: XLR pin 2 to K2 pin 2
+$ ground: XLR pin 1 to K2 pin 5
+
+The relay wiring for GPIO BCM pin 25 is on physical pin 22, giving the following
+connections:
+
+* GPIO header pin 4 (5V) to relay `Vcc`.
+* GPIO header pin 20 (GND) to relay `GND`.
+* GPIO header pin 22 (GPIO 25) to relay `in`.
+
+Finally, the relay is wired to the Martin's DIN connector:
+
+* relay common: Martin's DIN connector 3
+* relay normally open: Martin's DIN connector 5
+
+We ended up removing the DIN connector entirely, adding a manual control switch
+too, but you may want to leave the DIN connector intact.
 
 ## Enabling DMX over RS-485
 
@@ -56,3 +76,10 @@ Testing is probably best done using a DMX console. If you have a second
 Raspberry Pi and RS-485 HAT, you can also use that to generate the test signals.
 Keep in mind that actual console signals are more messy that programmatic ones.
 
+![Testing DMX from a second raspberry pi](images/dmx-testing.jpg)
+
+We used [DmxUniverse - Interface to dmx serial on Windows](https://github.com/Ray-electrotechie/Serial-dmx-with-python3)
+by Ray Electrotechie. In spite of the repository name, this code runs perfectly
+fine on Linux.
+
+Have fun and let us know if you see any improvements.
